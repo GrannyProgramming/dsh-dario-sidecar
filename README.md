@@ -3,12 +3,24 @@
 Harness-owned lifecycle for [dario](https://github.com/askalf/dario) — a
 [DeepSeek Harness](https://github.com/DeepSeek-Harness) (DSH) profile plugin.
 
-dario routes your Claude and/or ChatGPT **subscription** through a local
-OpenAI-/Anthropic-compatible endpoint (`http://127.0.0.1:3456`), so your
-per-token API bills stop duplicating a plan you already pay for. This plugin
-starts `dario proxy` when your harness starts and stops it when the harness
-stops — no terminal to babysit, no systemd unit, no "forgot to start the
-proxy" first-request failure.
+## In plain terms
+
+You probably pay for a ChatGPT or Claude subscription. That plan works in the
+vendor's own app — but most other tools, including the DeepSeek Harness this
+plugin is written for, expect an *API key*. An API key bills you per token,
+separately, on top of the subscription you already pay for.
+
+[dario](https://github.com/askalf/dario) closes that gap. It's a small
+program that runs on your machine and lets any OpenAI- or Anthropic-compatible
+tool use your **subscription** instead of an API bill.
+
+One catch: dario only works while it's running. Normally that means opening a
+terminal, starting it yourself, and hoping you remember after every reboot —
+and when you forget, your tools fail with confusing errors.
+
+This plugin wires dario into your harness's own startup: **harness starts →
+dario starts. Harness stops → dario stops.** Install it once, stop thinking
+about it. The rest of this README covers the details.
 
 ## What it does
 
