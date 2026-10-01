@@ -1,0 +1,34 @@
+{
+  "name": "dsh-dario-sidecar",
+  "description": "DeepSeek Harness profile plugin: starts and manages `dario proxy` with the harness — spawns via the subprocess seam, readiness-gates on GET /v1/models, adopts an already-healthy listener, and tears the spawned process down effect-scoped on unload.",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dario",
+    "sidecar",
+    "proxy",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GrannyProgramming/dsh-dario-sidecar.git"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-subprocess": "*",
+    "@deepseek-ai/schemastery": "*"
+  }
+}

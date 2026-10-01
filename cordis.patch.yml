@@ -1,0 +1,9 @@
+# dsh-dario-sidecar bundle patch: inserts the sidecar plugin row. Usable as a
+# profile bundle layer (the `dsh.bundle.patch` manifest field) via
+# `dsh plugin --profile <name> add github:GrannyProgramming/dsh-dario-sidecar`
+# + a `dsh.profile.bundles` entry, or inserted directly through the profile's
+# own user patch layer (cordis.patch.yml). Both routes compose to the same
+# mount; keep exactly one insert row to avoid duplicate ids.
+- insert:
+    - id: dsh-dario-sidecar
+      name: 'dsh-dario-sidecar'
