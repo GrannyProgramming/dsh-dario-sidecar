@@ -53,39 +53,42 @@ about it. The rest of this README covers the details.
 
 ## Install
 
-Managed route (wires dependency + bundle entry + patch row for you):
+Managed route (wires dependency + bundle entry; the package's own patch
+supplies the loader row, so defaults apply):
 
 ```bash
 dsh plugin --profile web add github:GrannyProgramming/dsh-dario-sidecar
 ```
 
-Or manually — add the dependency and bundle entry to your profile's
-`package.json`:
+Manual route — add the dependency to your profile's `package.json`:
 
 ```json
 {
   "dependencies": {
     "dsh-dario-sidecar": "github:GrannyProgramming/dsh-dario-sidecar"
-  },
-  "dsh": {
-    "profile": {
-      "bundles": ["…", "dsh-dario-sidecar"]
-    }
   }
 }
 ```
 
-install profile dependencies, and insert the plugin row via the profile's
-`cordis.patch.yml` (user patch layer — boot-persistent and hot-reloaded):
+install profile dependencies, then pick **one** of the two ways to mount it:
 
-```yaml
-- insert:
-    - id: dsh-dario-sidecar
-      name: 'dsh-dario-sidecar'
-```
+- **Bundle entry** (defaults, no config): add `"dsh-dario-sidecar"` to
+  `dsh.profile.bundles`. The package's own patch inserts the loader row.
+- **Manual insert** (you want to override config, e.g. `args`): leave it
+  **out** of the bundles list and add the row to the profile's
+  `cordis.patch.yml` user patch layer instead:
 
-Keep exactly one insert row (bundle patch *or* user patch, not both) to
-avoid duplicate-id loads.
+  ```yaml
+  - insert:
+      - id: dsh-dario-sidecar
+        name: 'dsh-dario-sidecar'
+        config:
+          args: ['proxy', '--no-claude-auth']   # your override
+  ```
+
+⚠️ **These two are mutually exclusive.** A bundle entry *and* a manual insert
+for the same id is a `duplicate loader entry id` boot failure — the loader
+refuses the whole tree, not just the duplicate row.
 
 ## Configuration
 
